@@ -14,15 +14,48 @@ func main() {
 	for {
 		reader := bufio.NewReader(os.Stdin)
 		input, _ = reader.ReadString('\n')
-		input = strings.Trim(input, "\n")
 		input = strings.ReplaceAll(input, " ", "")
-		values := strings.Split(input, "")
+		input = strings.TrimSpace(input)
+		values := SplitThis(input)
+
+		if len(values) < 3 {
+			fmt.Println("Строка не является математической операцией.")
+			os.Exit(0)
+		}
 
 		x := values[0] // Извлекаем числа и оператор выражения
-		y := values[2] // К сожалению, не смог сделать извлечение чисел, состоящих из 2 цифр
-		oper := values[1]
+		y := values[1] //
+		oper := values[2]
+
+		if len(values) > 3 {
+			fmt.Println("Введите выражение из двух чисел и оператора выражения (+, -, /, *).")
+			os.Exit(0)
+		}
+
 		FinalCalculate(x, y, oper) // Выносим все действия в другую функцию, чтобы не загромождать func main()
 	}
+}
+
+func SplitThis(input string) []string {
+	// Функция позволяет считывать арабские и римские числа, состоящие из двух чисел.
+	if strings.Contains(input, "+") {
+		sNum := strings.Split(input, "+")
+		sNum = append(sNum, "+")
+		return sNum
+	} else if strings.Contains(input, "-") {
+		sNum := strings.Split(input, "-")
+		sNum = append(sNum, "-")
+		return sNum
+	} else if strings.Contains(input, "/") {
+		sNum := strings.Split(input, "/")
+		sNum = append(sNum, "/")
+		return sNum
+	} else if strings.Contains(input, "*") {
+		sNum := strings.Split(input, "*")
+		sNum = append(sNum, "*")
+		return sNum
+	}
+	return nil
 }
 
 func InputMessage() {
